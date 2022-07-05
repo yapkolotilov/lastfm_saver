@@ -3,6 +3,8 @@ package me.kolotilov.lastfm_saver.presentation.album_details
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.kolotilov.lastfm_saver.R
 import me.kolotilov.lastfm_saver.models.AlbumDetails
@@ -36,8 +38,9 @@ class AlbumDetailsViewModel(
     val tracks: Flow<List<ListItem>> get() = _tracksFlow
     private val _tracksFlow = MutableSharedFlow<List<ListItem>>(1)
 
-    val saveButtonText: Flow<String> get() = _saveButtonTextFlow
-    private val _saveButtonTextFlow = MutableSharedFlow<String>(1)
+    val saveButtonText: Flow<String> get() = _savedFlow
+        .map { if (it) resourceProvider.getString(R.string.button_delete) else resourceProvider.getString(R.string.button_save) }
+    private val _savedFlow = MutableStateFlow(false)
 
     private lateinit var _albumId: AlbumId
     private lateinit var _albumCache: AlbumDetails
@@ -61,13 +64,12 @@ class AlbumDetailsViewModel(
         if (!::_albumCache.isInitialized)
             return
         viewModelScope.launch {
-            val saved = repository.getSavedAlbums().any { it.id() == _albumCache.id() }
-            if (saved) {
+            if (_savedFlow.value) {
                 repository.delete(_albumCache.id())
-                _saveButtonTextFlow.emit(resourceProvider.getString(R.string.button_save))
+                _savedFlow.emit(false)
             } else {
-                runHandling { repository.save(_albumCache) }
-                _saveButtonTextFlow.emit(resourceProvider.getString(R.string.button_delete))
+                runHandling { repository.save(_albumCache) }.getOrElse { return@launch }
+                _savedFlow.emit(true)
             }
         }
     }
@@ -85,16 +87,15 @@ class AlbumDetailsViewModel(
         val localAlbum = repository.getSavedAlbum(id)
         if (localAlbum != null) {
             _albumCache = localAlbum
-            _saveButtonTextFlow.emit(resourceProvider.getString(R.string.button_delete))
+            _savedFlow.value = true
             return
         }
 
+        _savedFlow.value = false
         val remoteAlbum = runHandling { repository.getAlbumDetails(id) }.getOrElse {
             _dataFlow.emit(AlbumDetailsData.Error)
             return
         }
         _albumCache = remoteAlbum
-
-        _saveButtonTextFlow.emit(resourceProvider.getString(R.string.button_save))
     }
 }

@@ -10,12 +10,10 @@ import me.kolotilov.lastfm_saver.R
 import me.kolotilov.lastfm_saver.presentation.common.BaseViewModel
 import me.kolotilov.lastfm_saver.presentation.common.ListItem
 import me.kolotilov.lastfm_saver.presentation.common.ResourceProvider
-import me.kolotilov.lastfm_saver.repositories.Repository
 import me.kolotilov.lastfm_saver.repositories.common.PAGE_SIZE
 import me.kolotilov.lastfm_saver.repositories.network.paging.SearchArtistsPagingSource
 import me.kolotilov.lastfm_saver.ui.search_artists.ArtistItem
 import me.kolotilov.lastfm_saver.ui.search_artists.toArtistItem
-import org.koin.core.component.get
 
 /**
  * Search Artists ViewModel.
@@ -67,7 +65,6 @@ class SearchArtistsViewModel(
 
     override fun onAttached() {
         super.onAttached()
-        showMessage(get<Repository>()::class.simpleName)
         viewModelScope.launch {
             _queryFlow.emit(dataProvider.query)
         }
