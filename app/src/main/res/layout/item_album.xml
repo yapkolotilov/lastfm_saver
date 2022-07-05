@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/item_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:id="@+id/album_image"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:background="?colorSecondary"
+                android:contentDescription="@string/description_album_image"
+                android:scaleType="fitXY"
+                tools:src="@drawable/ic_image" />
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/button_save"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_save" />
+
+        <TextView
+            android:id="@+id/album_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?headerColor"
+            android:textSize="16sp"
+            tools:text="Believe" />
+
+        <TextView
+            android:id="@+id/artist_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?subHeaderColor"
+            tools:text="Cher" />
+
+        <TextView
+            android:id="@+id/play_count_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?subHeaderColor"
+            tools:text="Play count: 100" />
+
+    </LinearLayout>
+
+</FrameLayout>

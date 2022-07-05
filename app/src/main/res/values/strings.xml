@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">lastfm_saver</string>
+    <string name="hint_search_artist">Artist\'s name</string>
+    <string name="description_search_button">Search Icon</string>
+    <string name="item_search_artists_hint">Artists found for \'%s\'</string>
+    <string name="description_artist_image">Artist Image</string>
+    <string name="item_search_artists_item_listeners">Listeners: %d</string>
+    <string name="text_search_artists_placeholder">Enter artist name in search field</string>
+    <string name="description_search_icon">Search Icon</string>
+    <string name="text_search_artists_not_found">No artists found. Try other query or check your Internet</string>
+    <string name="snack_no_connection">No internet connection</string>
+    <string name="snack_unknown_error">Unknown error</string>
+    <string name="text_artist_albums_playcount">Play count: %d</string>
+    <string name="description_album_image">Album Image</string>
+    <string name="description_save_icon">Save Icon</string>
+    <string name="message_enter_query">Enter query in search field</string>
+    <string name="error_paging_error">An error occurred. Check your Internet</string>
+    <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
+    <string name="title_saved_albums">Saved Albums</string>
+    <string name="placeholder_saved_albums">Saved albums will appear here</string>
+    <string name="placeholder_artist_has_no_albums">This artist has no albums</string>
+    <string name="title_search_artists">Search Artists</string>
+    <string name="dialog_title_permission_not_granted">Storage permission not granted</string>
+    <string name="dialog_message_permission_not_granted">Album images will not be saved. Please, grant permission via settings.</string>
+    <string name="error_title_album_details">Cannot load album info. Swipe down to try again.</string>
+    <string name="placeholder_artist">Artist</string>
+    <string name="placeholder_play_count">Play count: ...</string>
+    <string name="title_album_details">Album</string>
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/drawable/ic_circle.xml" value="0.2005" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/drawable/ic_save.xml" value="0.2005" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/drawable/ic_save_in_circle.xml" value="0.2005" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/drawable/ic_search.xml" value="0.2005" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/activity_main.xml" value="0.3661899897854954" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/artist_album_item.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/fragment_album_details.xml" value="0.36049382716049383" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/fragment_artist_albums.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/fragment_saved_albums.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/fragment_search_artists.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/item_track.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_artist.xml" value="0.4" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_hint.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_loader.xml" value="0.3661899897854954" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_not_found.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_placeholder.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_search_results_hint.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/AndroidStudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_placeholder.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/drawable/divider.xml" value="0.2345" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/drawable/ic_app_logo.xml" value="0.1675" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/drawable/ic_back.xml" value="0.2345" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/drawable/ic_image.xml" value="0.2035" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/drawable/ic_save.xml" value="0.2785" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/drawable/ic_search.xml" value="0.2785" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/artist_album_item.xml" value="0.24909420289855072" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/fragment_album_details.xml" value="0.30978260869565216" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/fragment_artist_albums.xml" value="0.30978260869565216" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/fragment_saved_albums.xml" value="0.264" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/fragment_search_artists.xml" value="0.264" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/item_album.xml" value="0.1828125" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/item_found_artist.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/item_no_albums_placeholder.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/item_track.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/item_track_loader.xml" value="0.3734375" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_loader.xml" value="0.1828125" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/search_artist_item_placeholder.xml" value="0.3695652173913043" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/view_loader.xml" value="0.30978260869565216" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/layout/view_placeholder.xml" value="0.30978260869565216" />
+        <entry key="..\:/Users/yapko/StudioProjects/lastfm_saver/app/src/main/res/menu/menu_sample.xml" value="0.3734375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

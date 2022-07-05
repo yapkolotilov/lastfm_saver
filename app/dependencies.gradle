@@ -1,0 +1,59 @@
+apply from: 'versions.gradle'
+
+// Main project dependencies.
+ext.implementationDependencies = { dependencyHandler ->
+    delegate = dependencyHandler
+
+    // Core:
+    implementation "androidx.core:core-ktx:$versions.core"
+    implementation "androidx.appcompat:appcompat:$versions.appCompat"
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+
+    // DI:
+    implementation "io.insert-koin:koin-core:$versions.koin"
+    implementation "io.insert-koin:koin-android:$versions.koin"
+
+    // Coroutines:
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+
+    // Navigation:
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+
+    // Network:
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+
+    // Delegate Adapter:
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$versions.delegateAdapter"
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$versions.delegateAdapter"
+    implementation "com.hannesdorfmann:adapterdelegates4-pagination:$versions.delegateAdapter"
+
+    // Room:
+    implementation "androidx.room:room-runtime:$versions.room"
+    kapt "androidx.room:room-compiler:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
+
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+
+    implementation "androidx.paging:paging-runtime:$versions.paging"
+    implementation "com.facebook.shimmer:shimmer:$versions.shimmer"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swipeLayout"
+}
+
+// Test dependencies.
+ext.testDependencies = { dependencyHandler ->
+    delegate = dependencyHandler
+
+    testImplementation "io.mockk:mockk:$versions.mockk"
+    testImplementation "junit:junit:$versions.junit"
+//    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.2.0"
+//    testImplementation "org.junit.platform.junit-platform-runner:1.2.0"
+//    testImplementation "org.junit.jupiter:junit-jupiter-params:5.2.0"
+
+    androidTestImplementation "androidx.test.ext:junit:$versions.junitExt"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espressoCore"
+    androidTestImplementation "com.agoda.kakao:kakao:$versions.kakao"
+}

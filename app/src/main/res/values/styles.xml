@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">100dp</item>
+    </style>
+
+    <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/gray_800</item>
+        <item name="titleTextColor">?colorOnSecondary</item>
+        <item name="buttonGravity">center_vertical</item>
+        <item name="contentInsetEnd">20dp</item>
+
+        <item name="colorAccent">@color/red_900</item>
+        <item name="colorControlNormal">#e34b1c</item>
+        <item name="colorControlActivated">#e34b1c</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">?subHeaderColor</item>
+        <item name="hintTextColor">?subHeaderColor</item>
+        <item name="boxBackgroundColor">?colorSecondary</item>
+        <item name="endIconTint">?colorOnSecondary</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+    </style>
+
+    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">?colorPrimary</item>
+    </style>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/savedAlbumsFragment">
+
+    <fragment
+        android:id="@+id/savedAlbumsFragment"
+        android:name="me.kolotilov.lastfm_saver.ui.saved_albums.SavedAlbumsFragment"
+        android:label="SavedAlbumsFragment"
+        tools:layout="@layout/fragment_saved_albums">
+        <action
+            android:id="@+id/action_savedAlbumsFragment_to_searchArtistsFragment"
+            app:destination="@id/searchArtistsFragment" />
+        <action
+            android:id="@+id/action_savedAlbumsFragment_to_storagePermissionNotGrantedFragment"
+            app:destination="@id/storagePermissionNotGrantedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchArtistsFragment"
+        android:name="me.kolotilov.lastfm_saver.ui.search_artists.SearchArtistsFragment"
+        android:label="SearchArtistsFragment"
+        tools:layout="@layout/fragment_search_artists" >
+        <action
+            android:id="@+id/action_searchArtistsFragment_to_artistAlbumsFragment"
+            app:destination="@id/artistAlbumsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistAlbumsFragment"
+        android:name="me.kolotilov.lastfm_saver.ui.artist_albums.ArtistAlbumsFragment"
+        android:label="ArtistAlbumsFragment" >
+        <argument
+            android:name="artist"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailsFragment"
+        android:name="me.kolotilov.lastfm_saver.ui.album_details.AlbumDetailsFragment"
+        android:label="AlbumDetailsFragment" >
+        <argument
+            android:name="artist"
+            app:argType="string" />
+        <argument
+            android:name="album"
+            app:argType="string" />
+    </fragment><action android:id="@+id/action_global_albumDetailsFragment" app:destination="@id/albumDetailsFragment"/>
+    <dialog
+        android:id="@+id/storagePermissionNotGrantedFragment"
+        android:name="me.kolotilov.lastfm_saver.ui.artist_albums.StoragePermissionNotGrantedFragment"
+        android:label="StoragePermissionNotGrantedFragment" />
+</navigation>
