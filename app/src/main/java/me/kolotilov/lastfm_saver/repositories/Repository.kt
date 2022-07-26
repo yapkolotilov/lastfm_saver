@@ -1,6 +1,5 @@
 package me.kolotilov.lastfm_saver.repositories
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import me.kolotilov.lastfm_saver.models.AlbumDetails
 import me.kolotilov.lastfm_saver.models.AlbumId
@@ -47,11 +46,24 @@ interface Repository {
     suspend fun save(album: AlbumDetails)
 
     /**
-     * Delete album.
+     * Soft delete album.
      *
      * @param id Album id.
      */
-    suspend fun delete(id: AlbumId)
+    suspend fun softDelete(id: AlbumId)
+
+    /**
+     * Reverts soft deletion.
+     *
+     * @param id Album id.
+     */
+    suspend fun revertSoftDelete(id: AlbumId)
+
+    /**
+     * Hard delete albums.
+     *
+     */
+    suspend fun hardDeleteAlbums()
 }
 
 class RepositoryImpl(
@@ -85,7 +97,15 @@ class RepositoryImpl(
         return localRepository.saveAlbum(album, image)
     }
 
-    override suspend fun delete(id: AlbumId) {
-        localRepository.deleteAlbum(id)
+    override suspend fun softDelete(id: AlbumId) {
+        localRepository.softDeleteAlbum(id)
+    }
+
+    override suspend fun revertSoftDelete(id: AlbumId) {
+        localRepository.revertSoftDeleteAlbum(id)
+    }
+
+    override suspend fun hardDeleteAlbums() {
+        localRepository.hardDeleteAlbums()
     }
 }

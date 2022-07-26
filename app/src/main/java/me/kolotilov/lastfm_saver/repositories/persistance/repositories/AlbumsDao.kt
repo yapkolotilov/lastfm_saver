@@ -44,7 +44,16 @@ abstract class AlbumsDao {
         )
     }
 
-    @Query("DELETE  FROM albums WHERE artist = :artist AND name = :album")
+    @Query("SELECT * FROM albums WHERE deleted = 1")
+    abstract suspend fun getAlbumsToDelete(): List<AlbumEntity>
+
+    @Query("UPDATE albums SET deleted = 1 WHERE artist = :artist AND name = :album")
+    abstract suspend fun softDelete(artist: String, album: String)
+
+    @Query("UPDATE albums SET deleted = 0 WHERE artist = :artist AND name = :album")
+    abstract suspend fun revertSoftDelete(artist: String, album: String)
+
+    @Query("DELETE FROM albums WHERE artist = :artist AND name = :album")
     abstract suspend fun delete(artist: String, album: String)
 
     @Query("SELECT * FROM albums WHERE artist = :artist AND name = :album")
@@ -59,7 +68,7 @@ abstract class AlbumsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertTracks(tracks: List<AlbumEntity.TrackEntity>)
 
-    @Query("SELECT * FROM albums")
+    @Query("SELECT * FROM albums WHERE deleted = 0")
     protected abstract fun getAllAlbums(): Flow<List<AlbumEntity>>
 
     @Query("SELECT * FROM tags WHERE albumArtist = :albumArtist AND albumName = :albumName")

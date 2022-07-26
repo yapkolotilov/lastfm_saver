@@ -36,11 +36,24 @@ interface LocalRepository {
     suspend fun saveAlbum(album: AlbumDetails, image: Bitmap?)
 
     /**
-     * Delete album.
+     * Soft delete album.
      *
      * @param id Album id.
      */
-    suspend fun deleteAlbum(id: AlbumId)
+    suspend fun softDeleteAlbum(id: AlbumId)
+
+    /**
+     * Reverts soft deletion of an album.
+     *
+     * @param id Album id.
+     */
+    suspend fun revertSoftDeleteAlbum(id: AlbumId)
+
+    /**
+     * Delete albums permanently.
+     *
+     */
+    suspend fun hardDeleteAlbums()
 }
 
 class LocalRepositoryImpl(
@@ -75,14 +88,34 @@ class LocalRepositoryImpl(
         }
     }
 
-    override suspend fun deleteAlbum(id: AlbumId) {
+    override suspend fun softDeleteAlbum(id: AlbumId) {
+        withContext(Dispatchers.IO) {
+            dao.softDelete(id.artist, id.album)
+            logger.debug("Soft deleted ${id.album}")
+        }
+    }
+
+    override suspend fun revertSoftDeleteAlbum(id: AlbumId) {
+        withContext(Dispatchers.IO) {
+            dao.revertSoftDelete(id.artist, id.album)
+            logger.debug("Reverted soft deletion ${id.album}")
+        }
+    }
+
+    override suspend fun hardDeleteAlbums() {
+        val savedAlbumIds = dao.getAlbumsToDelete().map { AlbumId(it.artist, it.name) }
+        for (id in savedAlbumIds)
+            hardDeleteAlbum(id)
+    }
+
+    private suspend fun hardDeleteAlbum(id: AlbumId) {
         withContext(Dispatchers.IO) {
             dao.delete(id.artist, id.album)
             val imageFile = fileHelper.imageFile(id)
             runCatching {
                 imageFile.delete()
             }
-            logger.debug("Deleted ${id.album}")
+            logger.debug("Hard deleted ${id.album}")
         }
     }
 }

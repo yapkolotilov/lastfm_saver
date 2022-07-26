@@ -40,7 +40,7 @@ class MockRepositoryImpl : Repository {
         _savedAlbums[album.id()] = album
     }
 
-    override suspend fun delete(id: AlbumId) {
+    override suspend fun softDelete(id: AlbumId) {
         _savedAlbums.remove(id)
     }
 

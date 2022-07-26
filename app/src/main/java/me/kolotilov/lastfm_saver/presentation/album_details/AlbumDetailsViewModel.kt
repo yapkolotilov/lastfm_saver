@@ -64,7 +64,7 @@ class AlbumDetailsViewModel(
             return
         viewModelScope.launch {
             if (_savedFlow.value) {
-                repository.delete(_albumCache.id())
+                repository.softDelete(_albumCache.id())
                 _savedFlow.emit(false)
             } else {
                 runHandling { repository.save(_albumCache) }.getOrElse { return@launch }

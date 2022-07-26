@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import me.kolotilov.lastfm_saver.R
 import me.kolotilov.lastfm_saver.databinding.FragmentSavedAlbumsBinding
 import me.kolotilov.lastfm_saver.presentation.common.ListItem
@@ -35,7 +36,7 @@ class SavedAlbumsFragment : BaseFragment<FragmentSavedAlbumsBinding>() {
             recycler.layoutManager = GridLayoutManager(requireContext(), spansCount)
             adapter = savedAlbumsAdapter(
                 onAlbumClick = viewModel::onAlbumClicked,
-                onSaveClicked = viewModel::onSaveClicked
+                onSaveClicked = viewModel::onDeleteClicked
             )
             recycler.adapter = adapter
         }
@@ -63,6 +64,13 @@ class SavedAlbumsFragment : BaseFragment<FragmentSavedAlbumsBinding>() {
             }
             viewModel.searchArtists.subscribe {
                 Router(findNavController()).showSearchAlbums()
+            }
+            viewModel.deleteSnackbar.subscribe {
+                Snackbar.make(requireView(), it.text, it.timeout)
+                    .setAction(R.string.snack_action_cancel) {
+                        viewModel.cancelDeletion()
+                    }
+                    .show()
             }
         }
     }

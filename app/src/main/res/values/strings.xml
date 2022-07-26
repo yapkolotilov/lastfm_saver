@@ -27,4 +27,6 @@
     <string name="placeholder_artist">Artist</string>
     <string name="placeholder_play_count">Play count: ...</string>
     <string name="title_album_details">Album</string>
+    <string name="snack_title_cancel_album_deletion">Album(s) deleted</string>
+    <string name="snack_action_cancel">Cancel</string>
 </resources>

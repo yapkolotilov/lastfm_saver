@@ -24,6 +24,8 @@ data class AlbumEntity(
     val playCount: Int,
     @ColumnInfo(name = "uri")
     val uri: String,
+    @ColumnInfo(name = "deleted")
+    val deleted: Boolean = false
 ) {
 
     @Entity(

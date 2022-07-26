@@ -93,7 +93,7 @@ class ArtistAlbumsViewModel(
                 repository.save(albumDetails)
                 _savedAlbumsIds.add(album.id())
             } else {
-                repository.delete(album.id())
+                repository.softDelete(album.id())
                 _savedAlbumsIds.remove(album.id())
             }
         }
