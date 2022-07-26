@@ -1,10 +1,7 @@
 package me.kolotilov.lastfm_saver.presentation.album_details
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import me.kolotilov.lastfm_saver.R
 import me.kolotilov.lastfm_saver.models.AlbumDetails
@@ -83,24 +80,22 @@ class AlbumDetailsViewModel(
     }
 
     private suspend fun loadAlbum(id: AlbumId) {
-        suspend fun showData(
-            albumDetails: AlbumDetails
-        ) {
-            _dataFlow.emit(albumDetails.toAlbumDetailsData(resourceProvider))
-            _tracksFlow.emit(albumDetails.tracks.map { it.toTrackItem() })
-        }
-
         _dataFlow.emit(AlbumDetailsData.Loading)
         _tracksFlow.emit(List(5) { LoaderItem() })
 
-        val localAlbum = repository.getSavedAlbum(id)
-        if (localAlbum != null) {
-            _albumCache = localAlbum
-            _savedFlow.value = true
-            showData(localAlbum)
-            return
-        }
+        repository
+        repository.getSavedAlbum(id)
+            .collect { localAlbum ->
+                if (localAlbum != null) {
+                    _albumCache = localAlbum
+                    _savedFlow.value = true
+                    showData(localAlbum)
+                } else
+                    loadRemoteAlbum(id)
+            }
+    }
 
+    private suspend fun loadRemoteAlbum(id: AlbumId) {
         _savedFlow.value = false
         val remoteAlbum = runHandling(showError = false) { repository.getAlbumDetails(id) }
             .onFailure {
@@ -111,5 +106,12 @@ class AlbumDetailsViewModel(
 
         _albumCache = remoteAlbum
         showData(remoteAlbum)
+    }
+
+    private suspend fun showData(
+        albumDetails: AlbumDetails
+    ) {
+        _dataFlow.emit(albumDetails.toAlbumDetailsData(resourceProvider))
+        _tracksFlow.emit(albumDetails.tracks.map { it.toTrackItem() })
     }
 }

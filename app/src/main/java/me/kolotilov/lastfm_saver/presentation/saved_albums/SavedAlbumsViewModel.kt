@@ -3,6 +3,8 @@ package me.kolotilov.lastfm_saver.presentation.saved_albums
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.kolotilov.lastfm_saver.models.AlbumId
 import me.kolotilov.lastfm_saver.presentation.common.BaseViewModel
@@ -41,7 +43,7 @@ class SavedAlbumsViewModel(
     override fun onAttached() {
         super.onAttached()
         viewModelScope.launch {
-            loadData()
+            subscribeToSavedAlbums()
         }
     }
 
@@ -60,7 +62,6 @@ class SavedAlbumsViewModel(
     fun onSaveClicked(album: AlbumPreviewItem) {
         viewModelScope.launch {
             repository.delete(album.id())
-            loadData()
         }
     }
 
@@ -73,13 +74,16 @@ class SavedAlbumsViewModel(
         }
     }
 
-    private suspend fun loadData() {
-        val items = repository.getSavedAlbums()
-        val data = SavedAlbumsData(
-            items = items.map { it.toItem(resourceProvider, true) },
-            recyclerVisibility = items.isNotEmpty(),
-            placeholderVisibility = items.isEmpty()
-        )
-        _savedAlbumsFlow.emit(data)
+    private suspend fun subscribeToSavedAlbums() {
+        repository.getSavedAlbums()
+            .map { items -> items.map { it.toItem(resourceProvider, true) } }
+            .collect { items ->
+                val data = SavedAlbumsData(
+                    items = items,
+                    recyclerVisibility = items.isNotEmpty(),
+                    placeholderVisibility = items.isEmpty()
+                )
+                _savedAlbumsFlow.emit(data)
+            }
     }
 }

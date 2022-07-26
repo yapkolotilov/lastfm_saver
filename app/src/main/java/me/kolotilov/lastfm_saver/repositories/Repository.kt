@@ -1,5 +1,7 @@
 package me.kolotilov.lastfm_saver.repositories
 
+import android.util.Log
+import kotlinx.coroutines.flow.Flow
 import me.kolotilov.lastfm_saver.models.AlbumDetails
 import me.kolotilov.lastfm_saver.models.AlbumId
 import me.kolotilov.lastfm_saver.models.ArtistAlbums
@@ -30,12 +32,12 @@ interface Repository {
      */
     suspend fun getAlbumDetails(id: AlbumId): AlbumDetails
 
-    suspend fun getSavedAlbum(id: AlbumId): AlbumDetails?
+    fun getSavedAlbum(id: AlbumId): Flow<AlbumDetails?>
 
     /**
      * Returns saved albums.
      */
-    suspend fun getSavedAlbums(): List<AlbumDetails>
+    fun getSavedAlbums(): Flow<List<AlbumDetails>>
 
     /**
      * Save album.
@@ -65,7 +67,7 @@ class RepositoryImpl(
         return lastFmRepository.getArtistAlbums(artist, page, pageSize)
     }
 
-    override suspend fun getSavedAlbum(id: AlbumId): AlbumDetails? {
+    override fun getSavedAlbum(id: AlbumId): Flow<AlbumDetails?> {
         return localRepository.getAlbum(id)
     }
 
@@ -73,7 +75,7 @@ class RepositoryImpl(
         return lastFmRepository.getAlbumDetails(id)
     }
 
-    override suspend fun getSavedAlbums(): List<AlbumDetails> {
+    override fun getSavedAlbums(): Flow<List<AlbumDetails>> {
         return localRepository.getAlbums()
     }
 

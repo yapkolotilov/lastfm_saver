@@ -2,6 +2,9 @@ package me.kolotilov.lastfm_saver.repositories.persistance.repositories
 
 import android.graphics.Bitmap
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import me.kolotilov.lastfm_saver.models.AlbumDetails
 import me.kolotilov.lastfm_saver.models.AlbumId
@@ -18,12 +21,12 @@ interface LocalRepository {
     /**
      * Returns album by id.
      */
-    suspend fun getAlbum(id: AlbumId): AlbumDetails?
+    fun getAlbum(id: AlbumId): Flow<AlbumDetails?>
 
     /**
      * Get all albums.
      */
-    suspend fun getAlbums(): List<AlbumDetails>
+    fun getAlbums(): Flow<List<AlbumDetails>>
 
     /**
      * Save album.
@@ -47,16 +50,16 @@ class LocalRepositoryImpl(
 
     private val logger = Logger(this)
 
-    override suspend fun getAlbum(id: AlbumId): AlbumDetails? {
-        return withContext(Dispatchers.IO) {
-            dao.getAlbum(id)?.toAlbumDetails()
-        }
+    override fun getAlbum(id: AlbumId): Flow<AlbumDetails?> {
+        return dao.getAlbum(id)
+            .map { it?.toAlbumDetails() }
+            .flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getAlbums(): List<AlbumDetails> {
-        return withContext(Dispatchers.IO) {
-            dao.getAll().map { it.toAlbumDetails() }
-        }
+    override fun getAlbums(): Flow<List<AlbumDetails>> {
+        return dao.getAll()
+            .map { it.map { it.toAlbumDetails() } }
+            .flowOn(Dispatchers.IO)
     }
 
     override suspend fun saveAlbum(album: AlbumDetails, image: Bitmap?) {

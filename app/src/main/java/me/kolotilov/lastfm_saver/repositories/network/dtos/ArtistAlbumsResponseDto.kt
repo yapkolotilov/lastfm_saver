@@ -1,5 +1,6 @@
 package me.kolotilov.lastfm_saver.repositories.network.dtos
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 import me.kolotilov.lastfm_saver.models.AlbumPreview
 import me.kolotilov.lastfm_saver.models.ArtistAlbums
@@ -47,6 +48,7 @@ data class ArtistAlbumsResponseDto(
 
 
 fun ArtistAlbumsResponseDto.toArtistAlbums(): ArtistAlbums {
+    Log.e("BRUH", this.toString())
     return ArtistAlbums(
         artistName = topAlbums?.artist?.artist.orEmpty(),
         albums = topAlbums?.albums?.map { it.toAlbumPreview() }.orEmpty(),

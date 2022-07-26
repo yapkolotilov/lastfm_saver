@@ -1,14 +1,14 @@
 package me.kolotilov.lastfm_saver.presentation.artist_albums
 
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.kolotilov.lastfm_saver.models.AlbumId
 import me.kolotilov.lastfm_saver.presentation.common.BaseViewModel
 import me.kolotilov.lastfm_saver.presentation.common.ListItem
@@ -39,9 +39,9 @@ class ArtistAlbumsViewModel(
     ) {
         dataProvider.create()
     }.flow
-//        .cachedIn(viewModelScope)
+        .cachedIn(viewModelScope)
         .map { albums ->
-            albums.map { it.toItem(resourceProvider, _savedAlbumsIds.contains(it.id())) as ListItem }
+            albums.map { it.toItem(resourceProvider, _savedAlbumsIds.contains(it.id())) }
         }
 
     /**
@@ -59,14 +59,13 @@ class ArtistAlbumsViewModel(
      */
     fun init(artist: String) {
         viewModelScope.launch {
-            updateSavedAlbumsIds()
-            dataProvider.invalidate(artist)
-            val result = runHandling { repository.getArtistAlbums(artist, 1, 0) }.getOrNull() ?: return@launch
             _dataFlow.emit(
                 ArtistDetailsData(
-                    artistName = result.artistName
+                    artistName = artist
                 )
             )
+            dataProvider.invalidate(artist)
+            subscribeToSavedAlbumsIds()
         }
     }
 
@@ -100,14 +99,13 @@ class ArtistAlbumsViewModel(
         }
     }
 
-    override fun onAttached() {
-        super.onAttached()
-        viewModelScope.launch {
-            _savedAlbumsIds = repository.getSavedAlbums().map { it.id() }.toMutableSet()
-        }
-    }
-
-    private suspend fun updateSavedAlbumsIds() {
-        _savedAlbumsIds = repository.getSavedAlbums().map { it.id() }.toMutableSet()
+    private suspend fun subscribeToSavedAlbumsIds() {
+        repository.getSavedAlbums()
+            .map { ids -> ids.map { it.id() }.toMutableSet() }
+            .collect {
+                withContext(Dispatchers.Main) {
+                    _savedAlbumsIds = it
+                }
+            }
     }
 }
