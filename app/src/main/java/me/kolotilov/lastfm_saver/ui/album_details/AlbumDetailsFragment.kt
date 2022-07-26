@@ -99,6 +99,10 @@ class AlbumDetailsFragment : BaseFragment<FragmentAlbumDetailsBinding>() {
                 adapter.items = tracks
                 adapter.notifyDataSetChanged()
             }
+
+            viewModel.loading.subscribe {
+                errorContainer.isRefreshing = false
+            }
         }
     }
 

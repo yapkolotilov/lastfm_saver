@@ -2,6 +2,8 @@ package me.kolotilov.lastfm_saver.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import me.kolotilov.lastfm_saver.presentation.album_details.AlbumDetailsViewModel
 import me.kolotilov.lastfm_saver.presentation.artist_albums.ArtistAlbumsViewModel
 import me.kolotilov.lastfm_saver.presentation.common.ErrorFormatter
@@ -11,9 +13,11 @@ import me.kolotilov.lastfm_saver.presentation.saved_albums.SavedAlbumsViewModel
 import me.kolotilov.lastfm_saver.presentation.search_artists.SearchArtistsViewModel
 import me.kolotilov.lastfm_saver.repositories.common.FileHelper
 import me.kolotilov.lastfm_saver.repositories.common.FileHelperImpl
+import me.kolotilov.lastfm_saver.repositories.network.ArrayOrInstanceDeserializer
 import me.kolotilov.lastfm_saver.repositories.network.LastFmApi
 import me.kolotilov.lastfm_saver.repositories.network.LastFmRepository
 import me.kolotilov.lastfm_saver.repositories.network.LastFmRepositoryImpl
+import me.kolotilov.lastfm_saver.repositories.network.dtos.AlbumInfoResponseDto.AlbumDto.TracksDto.TrackDto
 import me.kolotilov.lastfm_saver.repositories.network.paging.ArtistAlbumsPagingSource
 import me.kolotilov.lastfm_saver.repositories.network.paging.SearchArtistsPagingSource
 import me.kolotilov.lastfm_saver.repositories.persistance.repositories.AlbumDatabase
@@ -76,10 +80,15 @@ private fun okHttpClient(): OkHttpClient {
 }
 
 private fun retrofit(client: OkHttpClient): Retrofit {
+    val type = object : TypeToken<List<TrackDto>>() {}.type
+    val gson = GsonBuilder()
+        .registerTypeAdapter(type, ArrayOrInstanceDeserializer<TrackDto>())
+        .create()
+
     return Retrofit.Builder()
         .client(client)
         .baseUrl("https://ws.audioscrobbler.com/")
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 }
 

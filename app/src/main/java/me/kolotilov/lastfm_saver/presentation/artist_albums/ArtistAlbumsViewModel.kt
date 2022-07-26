@@ -1,7 +1,10 @@
 package me.kolotilov.lastfm_saver.presentation.artist_albums
 
 import androidx.lifecycle.viewModelScope
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
@@ -36,10 +39,10 @@ class ArtistAlbumsViewModel(
     ) {
         dataProvider.create()
     }.flow
+//        .cachedIn(viewModelScope)
         .map { albums ->
             albums.map { it.toItem(resourceProvider, _savedAlbumsIds.contains(it.id())) as ListItem }
         }
-        .cachedIn(viewModelScope)
 
     /**
      * Show album.
@@ -56,7 +59,7 @@ class ArtistAlbumsViewModel(
      */
     fun init(artist: String) {
         viewModelScope.launch {
-            _savedAlbumsIds = repository.getSavedAlbums().map { it.id() }.toMutableSet()
+            updateSavedAlbumsIds()
             dataProvider.invalidate(artist)
             val result = runHandling { repository.getArtistAlbums(artist, 1, 0) }.getOrNull() ?: return@launch
             _dataFlow.emit(
@@ -95,5 +98,16 @@ class ArtistAlbumsViewModel(
                 _savedAlbumsIds.remove(album.id())
             }
         }
+    }
+
+    override fun onAttached() {
+        super.onAttached()
+        viewModelScope.launch {
+            _savedAlbumsIds = repository.getSavedAlbums().map { it.id() }.toMutableSet()
+        }
+    }
+
+    private suspend fun updateSavedAlbumsIds() {
+        _savedAlbumsIds = repository.getSavedAlbums().map { it.id() }.toMutableSet()
     }
 }

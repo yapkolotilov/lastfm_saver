@@ -38,8 +38,13 @@ class AlbumDetailsViewModel(
     val tracks: Flow<List<ListItem>> get() = _tracksFlow
     private val _tracksFlow = MutableSharedFlow<List<ListItem>>(1)
 
-    val saveButtonText: Flow<String> get() = _savedFlow
-        .map { if (it) resourceProvider.getString(R.string.button_delete) else resourceProvider.getString(R.string.button_save) }
+    val saveButtonText: Flow<String>
+        get() = _savedFlow
+            .map {
+                if (it) resourceProvider.getString(R.string.button_delete) else resourceProvider.getString(
+                    R.string.button_save
+                )
+            }
     private val _savedFlow = MutableStateFlow(false)
 
     private lateinit var _albumId: AlbumId
@@ -54,9 +59,6 @@ class AlbumDetailsViewModel(
         _albumId = id
         viewModelScope.launch {
             loadAlbum(id)
-
-            _dataFlow.emit(_albumCache.toAlbumDetailsData(resourceProvider))
-            _tracksFlow.emit(_albumCache.tracks.map { it.toTrackItem() })
         }
     }
 
@@ -81,6 +83,13 @@ class AlbumDetailsViewModel(
     }
 
     private suspend fun loadAlbum(id: AlbumId) {
+        suspend fun showData(
+            albumDetails: AlbumDetails
+        ) {
+            _dataFlow.emit(albumDetails.toAlbumDetailsData(resourceProvider))
+            _tracksFlow.emit(albumDetails.tracks.map { it.toTrackItem() })
+        }
+
         _dataFlow.emit(AlbumDetailsData.Loading)
         _tracksFlow.emit(List(5) { LoaderItem() })
 
@@ -88,14 +97,19 @@ class AlbumDetailsViewModel(
         if (localAlbum != null) {
             _albumCache = localAlbum
             _savedFlow.value = true
+            showData(localAlbum)
             return
         }
 
         _savedFlow.value = false
-        val remoteAlbum = runHandling { repository.getAlbumDetails(id) }.getOrElse {
-            _dataFlow.emit(AlbumDetailsData.Error)
-            return
-        }
+        val remoteAlbum = runHandling(showError = false) { repository.getAlbumDetails(id) }
+            .onFailure {
+                _dataFlow.emit(AlbumDetailsData.Error)
+                _tracksFlow.emit(emptyList())
+                return
+            }.getOrNull() ?: return
+
         _albumCache = remoteAlbum
+        showData(remoteAlbum)
     }
 }
