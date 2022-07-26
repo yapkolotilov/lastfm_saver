@@ -2,7 +2,6 @@ package me.kolotilov.lastfm_saver.repositories.network
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
@@ -58,7 +57,6 @@ class LastFmRepositoryImpl(
 
     override suspend fun getArtistAlbums(artist: String, page: Int, pageSize: Int): ArtistAlbums {
         return withContext(Dispatchers.IO) {
-            Log.e("BRUH", "artist = $artist")
             api.getArtistAlbums(artist, page, pageSize).toArtistAlbums()
         }
     }
